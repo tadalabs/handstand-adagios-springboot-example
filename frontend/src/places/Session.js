@@ -6,7 +6,8 @@ export default class Session extends AbstractPlace {
     this.events = {
       onSessionInitiate: options.onSessionInitiate
     };
-    this.worker = new Adagios.WebWorker('/session-worker.min.js', {
+    this.worker = options.worker;
+    this.worker.ready({
       'onSessionInitiate': this.onSessionInitiate.bind(this)
     });
   }

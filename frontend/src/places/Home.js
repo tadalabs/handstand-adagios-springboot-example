@@ -6,7 +6,8 @@ export default class Home extends AbstractPlace {
   constructor(options) {
     super(options);
     this.todos = options.todos || [];
-    this.worker = new Adagios.WebWorker('/todo-worker.min.js', {
+    this.worker = options.worker;
+    this.worker.ready({
       'onGetTodoList': this.onGetTodoList.bind(this),
       'onPutTodo': this.onPutTodo.bind(this)
     });

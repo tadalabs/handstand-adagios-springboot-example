@@ -17,6 +17,7 @@
   "scripts": {
     "copy-static": "cp -r ./src/static/* ./dist",
     "webpack": "./node_modules/webpack/bin/webpack.js",
-    "build": "yarn run copy-static && yarn run webpack"
+    "build": "yarn run copy-static && yarn run webpack",
+    "start": "node_modules/webpack-dev-server/bin/webpack-dev-server.js"
   }
 }

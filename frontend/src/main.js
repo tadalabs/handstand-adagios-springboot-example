@@ -1,4 +1,5 @@
 import Handstand from 'handstand';
+import Adagios from 'adagios';
 import Session from './places/Session.js';
 import Home from './places/Home.js';
 import Error from './places/Error.js';
@@ -9,10 +10,12 @@ export default class App extends Handstand.Orchestrator {
       head: document.querySelector('head')
     }
     this.home = new Home({
-      app: this
+      app: this,
+      worker: new Adagios.WebWorker('/todo-worker.min.js', {})
     });
     this.session = new Session({
       app: this,
+      worker: new Adagios.WebWorker('/session-worker.min.js', {}),
       onSessionInitiate: (e) => {
         this.go(this.home);
       }
