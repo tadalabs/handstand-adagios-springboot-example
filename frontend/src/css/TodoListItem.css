@@ -1,0 +1,13 @@
+todo-list-item {
+  display: block;
+}
+todo-list-item > i.material-icons {
+  font-size: 4em;
+  float: right;
+}
+todo-list-item > i.todo-state {
+  color: silver;
+}
+todo-list-item > i.done-state {
+  color: green;
+}

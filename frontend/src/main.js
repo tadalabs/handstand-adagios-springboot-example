@@ -24,14 +24,14 @@ export default class App extends Handstand.Orchestrator {
     this.session.initiate();
   }
   go(place) {
-    this.place.leave().then(
+    this.place.onExit().then(
       () => {
         this.place = place;
-        this.place.go();
+        this.place.onEntry();
       },
       (e) => {
         this.place = new Error();
-        this.place.go(e)
+        this.place.onEntry(e)
       }
     );
   }

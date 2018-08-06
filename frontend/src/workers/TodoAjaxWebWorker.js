@@ -20,10 +20,10 @@ let worker = new Adagios.WebWorkers.AjaxWebWorker(self, {
   onPutTodo: (e)  => {
     worker.ajax({
       method: 'PUT',
-      url: '/api/v1/todos/' + e.data.payload.todo.id,
+      url: '/api/v1/todo',
       mime: 'application/json',
       authorization: e.data.payload.token,
-      data: e.data.payload.todo,
+      data: JSON.stringify(e.data.payload.todo),
       on: {
         '200': (req) => {
           e.data.payload = JSON.parse(req.responseText);

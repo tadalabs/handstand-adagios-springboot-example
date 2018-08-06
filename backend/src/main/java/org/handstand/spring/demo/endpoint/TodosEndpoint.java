@@ -36,7 +36,7 @@ public class TodosEndpoint {
                           HttpServletRequest request) {
         if (sessionService.validate(authToken, request.getRemoteAddr())) {
             return new ResponseEntity<>(todoService.list(authToken).stream()
-                    .filter(e -> e.Id == id).findFirst().get(), HttpStatus.OK);
+                    .filter(e -> e.id == id).findFirst().get(), HttpStatus.OK);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }

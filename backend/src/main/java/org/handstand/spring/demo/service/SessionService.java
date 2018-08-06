@@ -19,7 +19,7 @@ public class SessionService {
             int character = (int) (Math.random() * alphanumeric.length());
             builder.append("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".charAt(character));
         }
-        session.Id = builder.toString();
+        session.id = builder.toString();
         session.initiationDate = new Date();
         session.expirationDate = new Date();
         session.address = request.getRemoteAddr();
@@ -27,10 +27,10 @@ public class SessionService {
         c.setTime(session.expirationDate);
         c.add(Calendar.DATE, 1);
         session.expirationDate = c.getTime();
-        if (!validSessions.containsKey(session.Id)) {
-            validSessions.put(session.Id, session);
+        if (!validSessions.containsKey(session.id)) {
+            validSessions.put(session.id, session);
         } else {
-            validSessions.replace(session.Id, session);
+            validSessions.replace(session.id, session);
         }
 
         return session;
@@ -39,13 +39,13 @@ public class SessionService {
         return validSessions.get(sessionId);
     }
     public SessionEntity expire(SessionEntity session) {
-        if (validSessions.containsKey(session.Id))
+        if (validSessions.containsKey(session.id))
             validSessions.remove(session);
         return session;
     }
     public SessionEntity update(SessionEntity session) {
         if (validSessions.containsValue(session)) {
-            validSessions.replace(session.Id, session);
+            validSessions.replace(session.id, session);
         }
         return session;
     }

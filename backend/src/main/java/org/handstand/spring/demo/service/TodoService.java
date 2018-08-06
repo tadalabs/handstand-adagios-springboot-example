@@ -20,17 +20,17 @@ public class TodoService {
     }
     public void save(String sessionId, TodoEntity todo) {
         List<TodoEntity> todos = list(sessionId);
-        todo.SessionId = sessionId;
-        if (null == todo.Id || todo.Id.length() == 0)
-            todo.Id = String.valueOf(new Date().getTime());
+        todo.sessionId = sessionId;
+        if (null == todo.id || todo.id.length() == 0)
+            todo.id = String.valueOf(new Date().getTime());
         TodoEntity existingById = todos.stream()
-                .filter(e -> e.Id.equals(todo.Id))
+                .filter(e -> e.id.equals(todo.id))
                 .findFirst().orElse(null);
         if (null == existingById && !todos.contains(todo)) {
             todos.add(todo);
         } else {
-            existingById.Value = todo.Value;
-            existingById.State = todo.State;
+            existingById.value = todo.value;
+            existingById.state = todo.state;
         }
     }
     public void remove(String sessionId, TodoEntity todo) {

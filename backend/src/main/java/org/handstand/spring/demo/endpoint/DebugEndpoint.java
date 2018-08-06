@@ -40,7 +40,7 @@ public class DebugEndpoint {
         if (debugService.DEBUG_STATE) {
             ArrayList<TodoEntity> allTodos = new ArrayList<TodoEntity>();
             for (SessionEntity session : sessionService.list()) {
-                for (TodoEntity todo : todoService.list(session.Id)) {
+                for (TodoEntity todo : todoService.list(session.id)) {
                     allTodos.add(todo);
                 }
             }

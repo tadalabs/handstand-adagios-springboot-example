@@ -1,14 +1,10 @@
 # Example: Handstand + Adagios + SpringBoot
 
-
 This repository represents an attempt at exhibiting the benefit of using Handstand, Adagios and SpringBoot. The example solution provided, is a "Todo List" App.
-
 
 ## Getting Started
 
-
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
 
 ### Backend
 

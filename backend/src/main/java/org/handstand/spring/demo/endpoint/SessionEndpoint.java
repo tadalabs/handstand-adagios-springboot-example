@@ -26,9 +26,9 @@ public class SessionEndpoint {
         if (!sessionService.validate(authToken, request.getRemoteAddr())) {
             session = new SessionEntity();
             sessionService.initiate(session, request);
-            todoService.initialize(session.Id);
+            todoService.initialize(session.id);
         } else {
-            return sessionService.get(authToken);
+            session = sessionService.get(authToken);
         }
         return session;
     }

@@ -2,9 +2,9 @@ export default class AbstractPlace {
   constructor(options) {
     this.app = options.app;
   }
-  go() {
+  onEntry() {
   }
-  leave() {
+  onExit() {
     return new Promise((resolve, reject) => {
       resolve();
     });

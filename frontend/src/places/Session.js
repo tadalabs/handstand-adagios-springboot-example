@@ -14,7 +14,7 @@ export default class Session extends AbstractPlace {
   identity() {
     let session = null;
     try {
-      session = JSON.parse(localStorage.getItem('session')).Id;
+      session = JSON.parse(localStorage.getItem('session')).id;
     } catch(x) {
     }
     return session
