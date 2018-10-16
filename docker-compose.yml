@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+
+  sample-web-service:
+    build: ./sample-ui
+    container_name: ${NGINX_CONTAINER_NAME}
+    ports:
+    - "${NGINX_HOST_PORT}:${NGINX_CONTAINER_PORT}"
+    - "${NGINX_HTTPS_HOST_PORT}:${NGINX_HTTPS_CONTAINER_PORT}"
+    command: [nginx, '-g', 'daemon off;']
+    depends_on:
+    - sample-rest-service
+
+  sample-dynamo-service:
+    build: ./sample-dynamo
+    container_name: ${SAMPLE_DYNAMO_CONTAINER_NAME}
+    hostname: sample-dynamo
+    restart: always
+    ports:
+    - "${DYNAMO_HOST_PORT}:${DYNAMO_CONTAINER_PORT}"
+
+  init-sample-dynamo:
+    build: ./sample-aws-cli
+    container_name: ${SAMPLE_DYNAMO_INIT_CONTAINER_NAME}
+    links:
+    - sample-dynamo-service
+    env_file: .env
+
+  sample-rest-service:
+    build: ./sample-web-app
+    container_name: ${SAMPLE_REST_CONTAINER_NAME}
+    depends_on:
+    - sample-dynamo-service
+    ports:
+    - "${SAMPLE_REST_SERVER_HOST_PORT}:${SAMPLE_REST_SERVER_CONTAINER_PORT}"
+    env_file: .env

@@ -1,0 +1,1 @@
+This directory contains Tomcat 7 related configuration for the Docker Container.

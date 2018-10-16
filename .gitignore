@@ -1,0 +1,3 @@
+# ignore jetbrains generated
+.idea/
+*.iml

@@ -1,0 +1,19 @@
+{
+  "TableName": "widget",
+  "KeySchema": [
+    {
+      "AttributeName": "widget_id",
+      "KeyType": "HASH"
+    }
+  ],
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "widget_id",
+      "AttributeType": "S"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 1,
+    "WriteCapacityUnits": 1
+  }
+}
