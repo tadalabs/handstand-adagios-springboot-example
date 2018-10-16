@@ -1,0 +1,5 @@
+# ignore IntelliJ auto-generated
+*.iml
+
+# ignore Maven goals
+target/*
