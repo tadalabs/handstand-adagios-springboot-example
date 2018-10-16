@@ -1,0 +1,94 @@
+{
+	"info": {
+		"_postman_id": "cd2a5319-f4cb-46f0-bd6c-af8f25b6baea",
+		"name": "Spring Sample",
+		"description": "Spring boot Sample Application REST calls",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all Widgets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8087/rest/widgets/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8087",
+					"path": [
+						"rest",
+						"widgets",
+						"all"
+					]
+				},
+				"description": "Fetches all Widgets persisted in the Dynamo instance"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Widget by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8087/rest/widgets/2d25bc7f-544f-42b5-85d7-5540da94eaab",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8087",
+					"path": [
+						"rest",
+						"widgets",
+						"2d25bc7f-544f-42b5-85d7-5540da94eaab"
+					]
+				},
+				"description": "Fetches all Widgets persisted in the Dynamo instance"
+			},
+			"response": []
+		},
+		{
+			"name": "Create new Widget",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"widgetName\": \"Funky Widget #47\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8087/rest/widgets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8087",
+					"path": [
+						"rest",
+						"widgets"
+					]
+				},
+				"description": "POST's a new Widget to the Spring Web Service"
+			},
+			"response": []
+		}
+	]
+}
