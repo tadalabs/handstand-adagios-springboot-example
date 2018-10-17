@@ -1,3 +1,9 @@
 # ignore jetbrains generated
 .idea/
 *.iml
+
+frontend/dist/**
+frontend/node_modules/**
+frontend/yarn.lock
+backend/target/**
+backend/.idea/vcs.xml

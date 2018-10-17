@@ -1,0 +1,23 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "APACHE2",
+  "dependencies": {
+    "adagios": "../../adagios/adagios-0.0.1.tgz",
+    "css-loader": "^0.28.11",
+    "handstand": "file:../../handstand/handstand-3.1.1.tgz",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.12.0",
+    "webpack-dev-server": "^3.1.4"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.0.3"
+  },
+  "scripts": {
+    "copy-static": "cp -r ./src/static/* ./dist",
+    "webpack": "./node_modules/webpack/bin/webpack.js",
+    "build": "yarn run copy-static && yarn run webpack",
+    "start": "node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+  }
+}
