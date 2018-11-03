@@ -15,7 +15,7 @@ public class VersionService {
     /**
      * Retrieve the Version from the Build's Metadata
      *
-     * @return {Version|null} the Version Number
+     * @return {Version} the Version Number
      */
     public Version getVersion() {
         return new Version(this.appVersion);

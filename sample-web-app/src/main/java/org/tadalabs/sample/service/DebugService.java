@@ -15,7 +15,7 @@ public class DebugService {
     /**
      * Retrieve the Debug Flag from the Build's Metadata
      *
-     * @return {Debug|null} the Debug Flag
+     * @return {Debug} the Debug Flag
      */
     public Debug getDebug() {
         return new Debug(this.appDebug);

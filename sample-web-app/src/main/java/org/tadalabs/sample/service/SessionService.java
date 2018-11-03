@@ -41,7 +41,7 @@ public class SessionService {
      * Inserts a new `Session`
      *
      * @param session model to be persisted in the database
-     * @return the newly instantiated `Session` object
+     * @return {Optional} the newly instantiated `Session` object
      */
     public Optional<Session> addSession(Session session) {
 
@@ -62,7 +62,7 @@ public class SessionService {
      * Retrieve the Session record corresponding to the param Id
      *
      * @param sessionId the Id of the Session object to fetch
-     * @return {Session|null} the persisted Session object
+     * @return {Optional} the persisted Session object
      */
     public Optional<Session> getSessionById(@Valid @NotBlank String sessionId) {
 
