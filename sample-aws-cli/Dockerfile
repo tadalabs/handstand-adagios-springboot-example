@@ -11,6 +11,7 @@ COPY ./scripts/createTables.sh /etc/createTables.sh
 
 # Add the Table Configuration To the Container
 COPY ./scripts/tables/Widget.json /etc/Widget.json
+COPY ./scripts/tables/Session.json /etc/Session.json
 
 RUN ["chmod", "+x", "/etc/createTables.sh"]
 

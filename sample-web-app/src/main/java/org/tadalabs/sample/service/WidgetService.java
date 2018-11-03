@@ -34,7 +34,6 @@ public class WidgetService {
                 (List<WidgetEntity>) widgetRepository.findAll();
 
         return widgetListMapper.toWidgetList(entities);
-
     }
 
     /**
