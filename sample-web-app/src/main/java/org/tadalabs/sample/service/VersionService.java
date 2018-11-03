@@ -15,7 +15,7 @@ public class VersionService {
     /**
      * Retrieve the Version from the Build's Metadata
      *
-     * @return {Version|null} the persisted Session object
+     * @return {Version|null} the Version Number
      */
     public Version getVersion() {
         return new Version(this.appVersion);
