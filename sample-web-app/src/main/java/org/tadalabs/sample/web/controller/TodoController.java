@@ -27,7 +27,7 @@ public class TodoController {
     @ResponseBody
     public ResponseEntity<Todo> addTodo(@Valid @RequestBody Todo request) {
 
-        Optional<Todo> optionalTodo = this.todoService.addTodo(request);
+        Optional<Todo> optionalTodo = this.todoService.saveTodoDomainModel(request);
 
         if(!optionalTodo.isPresent()) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -62,6 +62,28 @@ public class TodoController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(optionalTodo.get());
+    }
+
+    @PutMapping(value = "/{todoId}", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<Todo> updateTodo(@PathVariable String todoId, @Valid @RequestBody Todo request) {
+
+        Optional<Todo> optionalTodo = this.todoService.saveTodoDomainModel(request);
+
+        if(!optionalTodo.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(optionalTodo.get());
+    }
+
+    @DeleteMapping(value = "/{todoId}", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity deleteTodo(@PathVariable String todoId) {
+
+        this.todoService.removeTodo(todoId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

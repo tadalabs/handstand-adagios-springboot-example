@@ -44,7 +44,6 @@ public class SessionController {
             @RequestHeader(value = "Authorization", defaultValue = "") String authorizationToken,
             HttpServletRequest httpServletRequest) {
 
-
         if(!sessionService.isSessionValid(authorizationToken, httpServletRequest.getRemoteAddr())) {
             // create a new session domain model
             Session newSession = SessionFactory.session();

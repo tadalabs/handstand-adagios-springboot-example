@@ -25,7 +25,7 @@ public class TodoService {
 
     /**
      * Default Constructor
-     * @param todoDynamoRepository Todo Repository
+     * @param todoDynamoRepository
      */
     @Autowired
     public TodoService(TodoDynamoRepository todoDynamoRepository,
@@ -48,14 +48,22 @@ public class TodoService {
     }
 
     /**
-     * Inserts a new `Todo`
-     *
-     * @param todo model to be persisted in the database
-     * @return {Optional} the newly instantiated `Todo` object
+     * Removes the {@code TodoEntity}
+     * @param todoId the unique Identifier corresponding to the {@code TodoEntity} to delete
      */
-    public Optional<Todo> addTodo(Todo todo) {
+    public void removeTodo(@Valid @NotBlank String todoId) {
+        todoDynamoRepository.deleteById(todoId);
+    }
 
-        Optional<TodoEntity> optional = todoMapper.fromDomain(todo);
+    /**
+     * Updates a {@code TodoEntity}
+     *
+     * @param todoDomainModel the domain model to be persisted with
+     * @return {Optional} the newly updated or persisted {@code TodoEntity}
+     */
+    public Optional<Todo> saveTodoDomainModel(Todo todoDomainModel) {
+
+        Optional<TodoEntity> optional = todoMapper.fromDomain(todoDomainModel);
 
         if(!optional.isPresent()) {
             return Optional.empty();
@@ -69,10 +77,10 @@ public class TodoService {
     }
 
     /**
-     * Retrieve the Todo record corresponding to the param Id
+     * Retrieve the To-Do record corresponding to the param Id
      *
-     * @param todoId the Id of the Todo object to fetch
-     * @return {Optional} the persisted Todo object
+     * @param todoId the Id of the {@code TodoEntity} to fetch
+     * @return {Optional} wrapped {@code TodoEntity}
      */
     public Optional<Todo> getTodoById(@Valid @NotBlank String todoId) {
 
