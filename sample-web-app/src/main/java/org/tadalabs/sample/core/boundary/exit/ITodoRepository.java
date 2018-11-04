@@ -13,6 +13,8 @@ public interface ITodoRepository {
 
     Optional<Todo>      todo(final String todoId);
 
+    Optional<Todo>      todo(final String todoId, final String sessionId);
+
     Optional<Todo>      create(final Todo todoDomainModel);
 
     Optional<Todo>      update(final Todo todoDomainModel);

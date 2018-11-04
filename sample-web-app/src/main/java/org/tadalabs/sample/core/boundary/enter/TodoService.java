@@ -62,8 +62,18 @@ public class TodoService {
      * @param todoId the Id of the {@code TodoEntity} to fetch
      * @return {Optional} wrapped {@code TodoEntity}
      */
-    public Optional<Todo> getTodoById(@Valid @NotBlank String todoId) {
+    public Optional<Todo> getByTodoId(@Valid @NotBlank String todoId) {
         return this.todoRepository.todo(todoId);
+    }
+
+    /**
+     * Retrieve the To-Do record corresponding to the param Id
+     *
+     * @param todoId the Id of the {@code TodoEntity} to fetch
+     * @return {Optional} wrapped {@code TodoEntity}
+     */
+    public Optional<Todo> getByTodoIdAndSessionId(@Valid @NotBlank String todoId, @Valid @NotBlank String sessionId) {
+        return this.todoRepository.todo(todoId, sessionId);
     }
 
     /**
@@ -72,7 +82,7 @@ public class TodoService {
      * @param sessionId the Id of the {@code SessionEntity} to fetch {@code TodoEntity} based off of
      * @return {Optional} wrapped {@code TodoEntity}
      */
-    public Optional<TodoList> getTodoBySessionId(@Valid @NotBlank String sessionId) {
+    public Optional<TodoList> findAllWithSessionId(@Valid @NotBlank String sessionId) {
         return this.todoRepository.todos(sessionId);
     }
 

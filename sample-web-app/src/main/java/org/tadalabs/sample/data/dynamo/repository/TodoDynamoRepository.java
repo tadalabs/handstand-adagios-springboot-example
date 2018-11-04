@@ -14,7 +14,11 @@ public interface TodoDynamoRepository extends CrudRepository<TodoEntity, String>
 
     Optional<TodoEntity> findByTodoId(String todoId);
 
+    Optional<TodoEntity> findByTodoIdAndSessionId(String todoId, String sessionId);
+
     Optional<List<TodoEntity>> findAllBySessionId(String sessionId);
+
+
 
 }
 

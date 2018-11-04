@@ -59,6 +59,17 @@ public class TodoRepository implements ITodoRepository {
     }
 
     @Override
+    public Optional<Todo> todo(final String todoId, final String sessionId) {
+        Optional<TodoEntity> optional = this.todoDynamoRepository.findByTodoIdAndSessionId(todoId, sessionId);
+
+        if (!optional.isPresent()) {
+            return Optional.empty();
+        }
+
+        return todoMapper.toDomain(optional.get());
+    }
+
+    @Override
     public Optional<Todo> create(Todo todoDomainModel) {
         Optional<TodoEntity> optional = this.todoMapper.fromDomain(todoDomainModel);
         if(!optional.isPresent()) {
