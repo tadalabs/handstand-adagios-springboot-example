@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tadalabs.sample.core.boundary.enter.SessionService;
+import org.tadalabs.sample.core.domain.Session;
 import org.tadalabs.sample.core.domain.Todo;
 import org.tadalabs.sample.adapter.web.api.TodoList;
 import org.tadalabs.sample.core.boundary.enter.TodoService;
@@ -30,7 +31,21 @@ public class TodoController {
 
     @PostMapping(produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public ResponseEntity<Todo> addTodo(@Valid @RequestBody Todo request) {
+    public ResponseEntity<Todo> addTodo(
+            @RequestHeader(value = "Authorization", defaultValue = "") String authorizationToken,
+            HttpServletRequest httpServletRequest,
+            @Valid @RequestBody Todo request) {
+
+        if(!this.sessionService.isSessionValid(authorizationToken, httpServletRequest.getRemoteAddr())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        Optional<Session> optionalSession = this.sessionService.getSessionByAddress(httpServletRequest.getRemoteAddr());
+        if(!optionalSession.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        request.setSessionId(optionalSession.get().getSessionId());
 
         Optional<Todo> optionalTodo = this.todoService.createNewTodo(request);
         if(!optionalTodo.isPresent()) {
@@ -68,7 +83,13 @@ public class TodoController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
-        Optional<Todo> optionalTodo = this.todoService.getByTodoIdAndSessionId(todoId, authorizationToken);
+        Optional<Session> optionalSession = this.sessionService.getSessionByAddress(httpServletRequest.getRemoteAddr());
+        if(!optionalSession.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        Optional<Todo> optionalTodo =
+                this.todoService.getByTodoIdAndSessionId(todoId, optionalSession.get().getSessionId());
         if(!optionalTodo.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

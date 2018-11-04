@@ -10,8 +10,8 @@ import java.io.Serializable;
 public class Todo implements Serializable {
 
     private String todoId;
-    private String sessionId;
     private String value;
+    private String sessionId;
 
     public Todo() {}
 

@@ -14,7 +14,7 @@ COPY ./conf/context.xml /usr/local/tomcat/conf/context.xml
 COPY ./conf/server.xml /usr/local/tomcat/conf/server.xml
 
 EXPOSE 8082
-EXPOSE 8000
+EXPOSE 8003
 
-ENV JPDA_ADDRESS 8000
+ENV JPDA_ADDRESS 8003
 CMD ["catalina.sh", "jpda", "run", "--debug"]

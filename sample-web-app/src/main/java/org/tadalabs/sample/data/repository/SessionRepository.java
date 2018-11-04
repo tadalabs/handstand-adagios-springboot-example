@@ -50,6 +50,17 @@ public class SessionRepository implements ISessionRepository {
     }
 
     @Override
+    public Optional<Session> sessionByAddress(final String address) {
+
+        Optional<SessionEntity> optional = this.sessionDynamoRepository.findByAddress(address);
+        if (!optional.isPresent()) {
+            return Optional.empty();
+        }
+
+        return sessionMapper.toDomain(optional.get());
+    }
+
+    @Override
     public Optional<Session> create(final Session sessionDomainModel) {
 
         Optional<SessionEntity> optional = this.sessionMapper.fromDomain(sessionDomainModel);

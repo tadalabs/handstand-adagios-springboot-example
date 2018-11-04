@@ -51,6 +51,16 @@ public class SessionService {
     }
 
     /**
+     * Retrieve the Session record corresponding to the param Address
+     *
+     * @param address the Remote Address of the Session object to fetch
+     * @return {Optional} the persisted Session object
+     */
+    public Optional<Session> getSessionByAddress(@Valid @NotBlank String address) {
+        return this.sessionRepository.sessionByAddress(address);
+    }
+
+    /**
      * Check whether the Session is still Valid or Not
      *
      * @param sessionId the unique Identifier associated with the Session

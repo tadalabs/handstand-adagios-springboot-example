@@ -15,4 +15,6 @@ public interface SessionDynamoRepository extends CrudRepository<SessionEntity, S
 
     Optional<SessionEntity> findBySessionIdAndAddress(String sessionId, String address);
 
+    Optional<SessionEntity> findByAddress(String address);
+
 }

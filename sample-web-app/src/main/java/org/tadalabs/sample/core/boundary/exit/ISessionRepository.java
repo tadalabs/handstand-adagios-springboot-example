@@ -11,6 +11,8 @@ public interface ISessionRepository {
 
     Optional<Session> session(final String sessionId);
 
+    Optional<Session> sessionByAddress(final String address);
+
     Optional<Session> create(final Session sessionDomainModel);
 
     Optional<Session> update(final Session sessionDomainModel);
