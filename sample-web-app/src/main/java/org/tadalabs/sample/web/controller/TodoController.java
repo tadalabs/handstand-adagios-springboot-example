@@ -27,8 +27,7 @@ public class TodoController {
     @ResponseBody
     public ResponseEntity<Todo> addTodo(@Valid @RequestBody Todo request) {
 
-        Optional<Todo> optionalTodo = this.todoService.saveTodoDomainModel(request);
-
+        Optional<Todo> optionalTodo = this.todoService.createNewTodo(request);
         if(!optionalTodo.isPresent()) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -41,13 +40,10 @@ public class TodoController {
     @ResponseBody
     public ResponseEntity<TodoList> getAllTodos() {
 
-        TodoList todoList = this.todoService.findAll();
+        Optional<TodoList> optional = this.todoService.findAll();
 
-        if(todoList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-        return new ResponseEntity<>(todoList, HttpStatus.OK);
+        return optional.map(todoList -> new ResponseEntity<>(todoList, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
     }
 
     @GetMapping(value = "/{todoId}", produces = "application/json")
@@ -55,7 +51,6 @@ public class TodoController {
     public ResponseEntity<Todo> getTodoById(@Valid @NotBlank @PathVariable("todoId") String todoId) {
 
         Optional<Todo> optionalTodo = this.todoService.getTodoById(todoId);
-
         if(!optionalTodo.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -66,16 +61,14 @@ public class TodoController {
 
     @PutMapping(value = "/{todoId}", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<Todo> updateTodo(@PathVariable String todoId, @Valid @RequestBody Todo request) {
+    public ResponseEntity updateTodo(@PathVariable String todoId, @Valid @RequestBody Todo request) {
 
-        Optional<Todo> optionalTodo = this.todoService.saveTodoDomainModel(request);
-
+        Optional<Todo> optionalTodo = this.todoService.updateTodo(request);
         if(!optionalTodo.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(optionalTodo.get());
+        return ResponseEntity.status(HttpStatus.OK).body(optionalTodo.get());
     }
 
     @DeleteMapping(value = "/{todoId}", produces = "application/json")

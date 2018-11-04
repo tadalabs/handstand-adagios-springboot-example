@@ -2,49 +2,34 @@ package org.tadalabs.sample.core.boundary.enter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.tadalabs.sample.core.boundary.exit.ITodoRepository;
 import org.tadalabs.sample.core.domain.Todo;
-import org.tadalabs.sample.data.dynamo.entity.TodoEntity;
-import org.tadalabs.sample.web.TodoListMapper;
-import org.tadalabs.sample.web.TodoMapper;
 import org.tadalabs.sample.adapter.web.api.TodoList;
-import org.tadalabs.sample.data.dynamo.repository.TodoDynamoRepository;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class TodoService {
 
-    private TodoDynamoRepository todoDynamoRepository;
-
-    private final TodoMapper todoMapper;
-
-    private final TodoListMapper todoListMapper;
+    private final ITodoRepository todoRepository;
 
     /**
      * Default Constructor
-     * @param todoDynamoRepository
+     * @param todoRepository
      */
     @Autowired
-    public TodoService(TodoDynamoRepository todoDynamoRepository,
-                       TodoMapper todoMapper, TodoListMapper todoListMapper) {
-
-        this.todoDynamoRepository = todoDynamoRepository;
-        this.todoMapper = todoMapper;
-        this.todoListMapper = todoListMapper;
+    public TodoService(ITodoRepository todoRepository) {
+        this.todoRepository = todoRepository;
     }
 
     /**
      * Fetches all Todos in the Repository
      * @return {TodoList} Encapsulated Collection of {@code TodoListItem} objects
      */
-    public TodoList findAll() {
-        List<TodoEntity> entities =
-                (List<TodoEntity>) todoDynamoRepository.findAll();
-
-        return todoListMapper.toTodoList(entities);
+    public Optional<TodoList> findAll() {
+        return todoRepository.todos();
     }
 
     /**
@@ -52,28 +37,23 @@ public class TodoService {
      * @param todoId the unique Identifier corresponding to the {@code TodoEntity} to delete
      */
     public void removeTodo(@Valid @NotBlank String todoId) {
-        todoDynamoRepository.deleteById(todoId);
+        this.todoRepository.delete(todoId);
     }
 
     /**
      * Updates a {@code TodoEntity}
-     *
      * @param todoDomainModel the domain model to be persisted with
-     * @return {Optional} the newly updated or persisted {@code TodoEntity}
      */
-    public Optional<Todo> saveTodoDomainModel(Todo todoDomainModel) {
+    public Optional<Todo> updateTodo(Todo todoDomainModel) {
+        return this.todoRepository.update(todoDomainModel);
+    }
 
-        Optional<TodoEntity> optional = todoMapper.fromDomain(todoDomainModel);
-
-        if(!optional.isPresent()) {
-            return Optional.empty();
-        }
-
-        TodoEntity entity = optional.get();
-
-        entity = todoDynamoRepository.save(entity);
-
-        return todoMapper.toDomain(entity);
+    /**
+     * Updates a {@code TodoEntity}
+     * @param todoDomainModel the domain model to be persisted with
+     */
+    public Optional<Todo> createNewTodo(Todo todoDomainModel) {
+        return this.todoRepository.create(todoDomainModel);
     }
 
     /**
@@ -83,14 +63,17 @@ public class TodoService {
      * @return {Optional} wrapped {@code TodoEntity}
      */
     public Optional<Todo> getTodoById(@Valid @NotBlank String todoId) {
+        return this.todoRepository.todo(todoId);
+    }
 
-        Optional<TodoEntity> optional = this.todoDynamoRepository.findByTodoId(todoId);
-
-        if (!optional.isPresent()) {
-            return Optional.empty();
-        }
-
-        return todoMapper.toDomain(optional.get());
+    /**
+     * Retrieve the To-Do record corresponding to the param Id
+     *
+     * @param sessionId the Id of the {@code SessionEntity} to fetch {@code TodoEntity} based off of
+     * @return {Optional} wrapped {@code TodoEntity}
+     */
+    public Optional<TodoList> getTodoBySessionId(@Valid @NotBlank String sessionId) {
+        return this.todoRepository.todos(sessionId);
     }
 
 }

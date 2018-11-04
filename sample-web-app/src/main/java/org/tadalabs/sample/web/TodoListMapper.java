@@ -6,14 +6,15 @@ import org.tadalabs.sample.adapter.web.api.TodoList;
 import org.tadalabs.sample.adapter.web.api.TodoListItem;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
 public class TodoListMapper {
 
-    public TodoList toTodoList(List<TodoEntity> todoEntityList) {
-        return toTodoList(todoEntityList.stream());
+    public Optional<TodoList> toTodoList(List<TodoEntity> todoEntityList) {
+        return Optional.of(toTodoList(todoEntityList.stream()));
     }
 
     public TodoList toTodoList(Stream<TodoEntity> todoEntityStream) {
