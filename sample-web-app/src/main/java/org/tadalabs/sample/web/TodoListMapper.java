@@ -2,8 +2,8 @@ package org.tadalabs.sample.web;
 
 import org.springframework.stereotype.Component;
 import org.tadalabs.sample.data.dynamo.entity.TodoEntity;
-import org.tadalabs.sample.web.api.TodoList;
-import org.tadalabs.sample.web.api.TodoListItem;
+import org.tadalabs.sample.adapter.web.api.TodoList;
+import org.tadalabs.sample.adapter.web.api.TodoListItem;
 
 import java.util.List;
 import java.util.stream.Collectors;

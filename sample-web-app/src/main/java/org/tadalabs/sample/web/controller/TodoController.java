@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tadalabs.sample.core.domain.Todo;
-import org.tadalabs.sample.web.api.TodoList;
+import org.tadalabs.sample.adapter.web.api.TodoList;
 import org.tadalabs.sample.core.boundary.enter.TodoService;
 
 import javax.validation.Valid;

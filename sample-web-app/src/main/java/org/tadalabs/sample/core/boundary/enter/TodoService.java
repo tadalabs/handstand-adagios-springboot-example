@@ -6,12 +6,11 @@ import org.tadalabs.sample.core.domain.Todo;
 import org.tadalabs.sample.data.dynamo.entity.TodoEntity;
 import org.tadalabs.sample.web.TodoListMapper;
 import org.tadalabs.sample.web.TodoMapper;
-import org.tadalabs.sample.web.api.TodoList;
+import org.tadalabs.sample.adapter.web.api.TodoList;
 import org.tadalabs.sample.data.dynamo.repository.TodoDynamoRepository;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,16 +19,27 @@ public class TodoService {
 
     private TodoDynamoRepository todoDynamoRepository;
 
-    @Autowired
-    private TodoMapper todoMapper;
+    private final TodoMapper todoMapper;
 
-    @Autowired
-    private TodoListMapper todoListMapper;
+    private final TodoListMapper todoListMapper;
 
-    public TodoService(TodoDynamoRepository todoDynamoRepository) {
+    /**
+     * Default Constructor
+     * @param todoDynamoRepository Todo Repository
+     */
+    @Autowired
+    public TodoService(TodoDynamoRepository todoDynamoRepository,
+                       TodoMapper todoMapper, TodoListMapper todoListMapper) {
+
         this.todoDynamoRepository = todoDynamoRepository;
+        this.todoMapper = todoMapper;
+        this.todoListMapper = todoListMapper;
     }
 
+    /**
+     * Fetches all Todos in the Repository
+     * @return {TodoList} Encapsulated Collection of {@code TodoListItem} objects
+     */
     public TodoList findAll() {
         List<TodoEntity> entities =
                 (List<TodoEntity>) todoDynamoRepository.findAll();
@@ -48,7 +58,7 @@ public class TodoService {
         Optional<TodoEntity> optional = todoMapper.fromDomain(todo);
 
         if(!optional.isPresent()) {
-            throw new InvalidParameterException("External todo model failed to be mapped to an internal entity.");
+            return Optional.empty();
         }
 
         TodoEntity entity = optional.get();
@@ -69,7 +79,7 @@ public class TodoService {
         Optional<TodoEntity> optional = this.todoDynamoRepository.findByTodoId(todoId);
 
         if (!optional.isPresent()) {
-            throw new InvalidParameterException("Failed to find a Todo matching param TodoId.");
+            return Optional.empty();
         }
 
         return todoMapper.toDomain(optional.get());

@@ -2,8 +2,8 @@ package org.tadalabs.sample.web;
 
 import org.springframework.stereotype.Component;
 import org.tadalabs.sample.data.dynamo.entity.SessionEntity;
-import org.tadalabs.sample.web.api.SessionListItem;
-import org.tadalabs.sample.web.api.SessionList;
+import org.tadalabs.sample.adapter.web.api.SessionListItem;
+import org.tadalabs.sample.adapter.web.api.SessionList;
 
 import java.util.List;
 import java.util.stream.Collectors;

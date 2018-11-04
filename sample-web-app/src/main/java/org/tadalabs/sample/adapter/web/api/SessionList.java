@@ -1,4 +1,4 @@
-package org.tadalabs.sample.web.api;
+package org.tadalabs.sample.adapter.web.api;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

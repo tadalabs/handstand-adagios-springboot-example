@@ -6,12 +6,11 @@ import org.tadalabs.sample.core.domain.Session;
 import org.tadalabs.sample.data.dynamo.entity.SessionEntity;
 import org.tadalabs.sample.web.SessionListMapper;
 import org.tadalabs.sample.web.SessionMapper;
-import org.tadalabs.sample.web.api.SessionList;
+import org.tadalabs.sample.adapter.web.api.SessionList;
 import org.tadalabs.sample.data.dynamo.repository.SessionDynamoRepository;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,16 +19,23 @@ public class SessionService {
 
     private SessionDynamoRepository sessionDynamoRepository;
 
-    @Autowired
-    private SessionMapper sessionMapper;
+    private final SessionMapper sessionMapper;
+
+    private final SessionListMapper sessionListMapper;
 
     @Autowired
-    private SessionListMapper sessionListMapper;
+    public SessionService(SessionDynamoRepository sessionDynamoRepository,
+                          SessionMapper sessionMapper, SessionListMapper sessionListMapper) {
 
-    public SessionService(SessionDynamoRepository sessionDynamoRepository) {
         this.sessionDynamoRepository = sessionDynamoRepository;
+        this.sessionMapper = sessionMapper;
+        this.sessionListMapper = sessionListMapper;
     }
 
+    /**
+     * Fetches all Sessions
+     * @return {SessionList} Encapsulated Collection of {@code SessionListItem}
+     */
     public SessionList findAll() {
         List<SessionEntity> entities =
                 (List<SessionEntity>) sessionDynamoRepository.findAll();
@@ -40,19 +46,16 @@ public class SessionService {
     /**
      * Inserts a new `Session`
      *
-     * @param session model to be persisted in the database
+     * @param session model to be persisted
      * @return {Optional} the newly instantiated `Session` object
      */
     public Optional<Session> addSession(Session session) {
-
-
-
 
         // map the session model to an entity, and attempt to save
         Optional<SessionEntity> optional = sessionMapper.fromDomain(session);
 
         if(!optional.isPresent()) {
-            throw new InvalidParameterException("External session model failed to be mapped to an internal entity.");
+            return Optional.empty();
         }
 
         SessionEntity entity = optional.get();
@@ -73,7 +76,7 @@ public class SessionService {
         Optional<SessionEntity> optional = this.sessionDynamoRepository.findBySessionId(sessionId);
 
         if (!optional.isPresent()) {
-            throw new InvalidParameterException("Failed to find a Session matching param SessionId.");
+            return Optional.empty();
         }
 
         return sessionMapper.toDomain(optional.get());
@@ -93,7 +96,6 @@ public class SessionService {
 
     /**
      * Expires the Session
-     *
      * @param sessionId the unique Identifier corresponding to the session to Expire
      */
     public void expireSession(@Valid @NotBlank String sessionId) {

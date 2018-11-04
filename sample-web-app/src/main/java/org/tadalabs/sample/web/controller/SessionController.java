@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.tadalabs.sample.adapter.web.SessionFactory;
 import org.tadalabs.sample.core.domain.Session;
-import org.tadalabs.sample.web.api.SessionList;
+import org.tadalabs.sample.adapter.web.api.SessionList;
 import org.tadalabs.sample.core.boundary.enter.SessionService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,26 +25,6 @@ public class SessionController {
         this.sessionService = sessionService;
     }
 
-    @PostMapping(produces = "application/json", consumes = "application/json")
-    @ResponseBody
-    public ResponseEntity<Session> addSession(HttpServletRequest httpServletRequest, @Valid @RequestBody Session session) {
-
-        // set the remote address
-        session.setAddress(httpServletRequest.getRemoteAddr());
-
-        // set the expiration data and initiation date
-
-
-        Optional<Session> optionalSession = this.sessionService.addSession(session);
-
-        if(!optionalSession.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(optionalSession.get());
-    }
-
     @GetMapping(value = "/", produces = "application/json")
     @ResponseBody
     public ResponseEntity<SessionList> getAllSessions() {
@@ -55,6 +36,41 @@ public class SessionController {
         }
 
         return new ResponseEntity<>(sessionList, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/initiate", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<Session> initializeSession(
+            @RequestHeader(value = "Authorization", defaultValue = "") String authorizationToken,
+            HttpServletRequest httpServletRequest) {
+
+
+        if(!sessionService.isSessionValid(authorizationToken, httpServletRequest.getRemoteAddr())) {
+            // create a new session domain model
+            Session newSession = SessionFactory.session();
+
+            // set the remote address
+            newSession.setAddress(httpServletRequest.getRemoteAddr());
+
+            // pass it to the service for persistence
+            Optional<Session> optionalSession = this.sessionService.addSession(newSession);
+
+            if(!optionalSession.isPresent()) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(optionalSession.get());
+        }
+
+        Optional<Session> optionalSession = sessionService.getSessionById(authorizationToken);
+
+        if(!optionalSession.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(optionalSession.get());
     }
 
     @GetMapping(value = "/{sessionId}", produces = "application/json")
