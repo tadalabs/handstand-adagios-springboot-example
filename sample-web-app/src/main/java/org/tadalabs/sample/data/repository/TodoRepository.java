@@ -16,16 +16,19 @@ import java.util.Optional;
 @Component
 public class TodoRepository implements ITodoRepository {
 
-    @Autowired
-    private TodoDynamoRepository todoDynamoRepository;
+    private final TodoDynamoRepository todoDynamoRepository;
+
+    private final TodoListMapper todoListMapper;
+
+    private final TodoMapper todoMapper;
 
     @Autowired
-    private TodoListMapper todoListMapper;
-
-    @Autowired
-    private TodoMapper todoMapper;
-
-    public TodoRepository() {}
+    public TodoRepository(TodoDynamoRepository todoDynamoRepository,
+                          TodoListMapper todoListMapper, TodoMapper todoMapper) {
+        this.todoDynamoRepository = todoDynamoRepository;
+        this.todoListMapper = todoListMapper;
+        this.todoMapper = todoMapper;
+    }
 
     @Override
     public Optional<TodoList> todos() {
@@ -68,7 +71,6 @@ public class TodoRepository implements ITodoRepository {
     @Override
     public Optional<Todo> update(Todo todoDomainModel) {
         Optional<TodoEntity> optional = this.todoMapper.fromDomain(todoDomainModel);
-
         if(!optional.isPresent()) {
             return Optional.empty();
         }

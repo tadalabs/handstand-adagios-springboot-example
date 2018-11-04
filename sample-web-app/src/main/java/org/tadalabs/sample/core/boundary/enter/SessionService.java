@@ -3,44 +3,31 @@ package org.tadalabs.sample.core.boundary.enter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.tadalabs.sample.core.domain.Session;
-import org.tadalabs.sample.data.dynamo.entity.SessionEntity;
-import org.tadalabs.sample.web.SessionListMapper;
-import org.tadalabs.sample.web.SessionMapper;
+import org.tadalabs.sample.data.repository.SessionRepository;
 import org.tadalabs.sample.adapter.web.api.SessionList;
-import org.tadalabs.sample.data.dynamo.repository.SessionDynamoRepository;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class SessionService {
 
-    private SessionDynamoRepository sessionDynamoRepository;
-
-    private final SessionMapper sessionMapper;
-
-    private final SessionListMapper sessionListMapper;
+    private final SessionRepository sessionRepository;
 
     @Autowired
-    public SessionService(SessionDynamoRepository sessionDynamoRepository,
-                          SessionMapper sessionMapper, SessionListMapper sessionListMapper) {
+    public SessionService(SessionRepository sessionRepository) {
 
-        this.sessionDynamoRepository = sessionDynamoRepository;
-        this.sessionMapper = sessionMapper;
-        this.sessionListMapper = sessionListMapper;
+        this.sessionRepository = sessionRepository;
     }
 
     /**
      * Fetches all Sessions
      * @return {SessionList} Encapsulated Collection of {@code SessionListItem}
      */
-    public SessionList findAll() {
-        List<SessionEntity> entities =
-                (List<SessionEntity>) sessionDynamoRepository.findAll();
-
-        return sessionListMapper.toSessionList(entities);
+    public Optional<SessionList> findAll() {
+        return this.sessionRepository.sessions();
     }
 
     /**
@@ -50,19 +37,7 @@ public class SessionService {
      * @return {Optional} the newly instantiated `Session` object
      */
     public Optional<Session> addSession(Session session) {
-
-        // map the session model to an entity, and attempt to save
-        Optional<SessionEntity> optional = sessionMapper.fromDomain(session);
-
-        if(!optional.isPresent()) {
-            return Optional.empty();
-        }
-
-        SessionEntity entity = optional.get();
-
-        entity = sessionDynamoRepository.save(entity);
-
-        return sessionMapper.toDomain(entity);
+        return this.sessionRepository.create(session);
     }
 
     /**
@@ -72,14 +47,7 @@ public class SessionService {
      * @return {Optional} the persisted Session object
      */
     public Optional<Session> getSessionById(@Valid @NotBlank String sessionId) {
-
-        Optional<SessionEntity> optional = this.sessionDynamoRepository.findBySessionId(sessionId);
-
-        if (!optional.isPresent()) {
-            return Optional.empty();
-        }
-
-        return sessionMapper.toDomain(optional.get());
+        return this.sessionRepository.session(sessionId);
     }
 
     /**
@@ -91,7 +59,15 @@ public class SessionService {
      * @return {boolean} True if the Session is valid, false if not
      */
     public boolean isSessionValid(@Valid @NotBlank String sessionId, @Valid @NotBlank String remoteAddress) {
-        return sessionDynamoRepository.findBySessionIdAndAddress(sessionId, remoteAddress).isPresent();
+
+        Optional<Session> optionalSession = this.getSessionById(sessionId);
+        if(!optionalSession.isPresent()) {
+            // session does not exist
+            return false;
+        }
+
+        Session session = optionalSession.get();
+        return Objects.equals(session.getAddress(), remoteAddress);
     }
 
     /**
@@ -99,7 +75,7 @@ public class SessionService {
      * @param sessionId the unique Identifier corresponding to the session to Expire
      */
     public void expireSession(@Valid @NotBlank String sessionId) {
-        sessionDynamoRepository.deleteById(sessionId);
+        this.sessionRepository.delete(sessionId);
     }
 
 }

@@ -7,16 +7,16 @@ import java.util.Optional;
 
 public interface ITodoRepository {
 
-    Optional<TodoList> todos();
+    Optional<TodoList>  todos();
 
-    Optional<TodoList> todos(final String sessionId);
+    Optional<TodoList>  todos(final String sessionId);
 
-    Optional<Todo> todo(final String todoId);
+    Optional<Todo>      todo(final String todoId);
 
-    Optional<Todo>  create(final Todo todoDomainModel);
+    Optional<Todo>      create(final Todo todoDomainModel);
 
-    Optional<Todo>  update(final Todo todoDomainModel);
+    Optional<Todo>      update(final Todo todoDomainModel);
 
-    void delete(final String todoId);
+    void                delete(final String todoId);
 
 }

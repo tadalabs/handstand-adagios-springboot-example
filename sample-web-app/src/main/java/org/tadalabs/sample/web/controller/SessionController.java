@@ -29,13 +29,10 @@ public class SessionController {
     @ResponseBody
     public ResponseEntity<SessionList> getAllSessions() {
 
-        SessionList sessionList = this.sessionService.findAll();
+        Optional<SessionList> optionalSessionList = this.sessionService.findAll();
 
-        if(sessionList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-        return new ResponseEntity<>(sessionList, HttpStatus.OK);
+        return optionalSessionList.map(sessionList -> new ResponseEntity<>(sessionList, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
     }
 
     @GetMapping(value = "/initiate", produces = "application/json")

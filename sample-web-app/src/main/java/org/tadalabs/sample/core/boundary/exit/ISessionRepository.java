@@ -3,15 +3,17 @@ package org.tadalabs.sample.core.boundary.exit;
 import org.tadalabs.sample.adapter.web.api.SessionList;
 import org.tadalabs.sample.core.domain.Session;
 
+import java.util.Optional;
+
 public interface ISessionRepository {
 
-    SessionList sessions();
+    Optional<SessionList> sessions();
 
-    Session session(final String sessionId);
+    Optional<Session> session(final String sessionId);
 
-    void create(final Session sessionDomainModel);
+    Optional<Session> create(final Session sessionDomainModel);
 
-    void update(final Session sessionDomainModel);
+    Optional<Session> update(final Session sessionDomainModel);
 
     void delete(final String sessionId);
     

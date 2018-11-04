@@ -6,20 +6,23 @@ import org.tadalabs.sample.adapter.web.api.SessionListItem;
 import org.tadalabs.sample.adapter.web.api.SessionList;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
 public class SessionListMapper {
 
-    public SessionList toSessionList(List<SessionEntity> sessionEntityList) {
+    public Optional<SessionList> toSessionList(List<SessionEntity> sessionEntityList) {
         return toSessionList(sessionEntityList.stream());
     }
 
-    public SessionList toSessionList(Stream<SessionEntity> sessionEntityStream) {
-        return new SessionList(sessionEntityStream
-                .map(this::toSessionListItem)
-                .collect(Collectors.toList()));
+    public Optional<SessionList> toSessionList(Stream<SessionEntity> sessionEntityStream) {
+        return Optional.of(
+                new SessionList(sessionEntityStream
+                    .map(this::toSessionListItem)
+                    .collect(Collectors.toList()))
+            );
     }
 
     protected SessionListItem toSessionListItem(SessionEntity sessionEntity) {
