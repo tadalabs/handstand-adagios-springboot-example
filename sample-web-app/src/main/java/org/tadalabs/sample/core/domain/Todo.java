@@ -12,13 +12,15 @@ public class Todo implements Serializable {
     private String todoId;
     private String value;
     private String sessionId;
+    private TodoState todoState;
 
     public Todo() {}
 
-    public Todo(String todoId, String value, String sessionId) {
+    public Todo(String todoId, String value, String sessionId, TodoState todoState) {
         this.todoId = todoId;
         this.value = value;
         this.sessionId = sessionId;
+        this.todoState = todoState;
     }
 
     @Override
@@ -46,6 +48,14 @@ public class Todo implements Serializable {
 
     public String getSessionId() {
         return sessionId;
+    }
+
+    public TodoState getTodoState() {
+        return todoState;
+    }
+
+    public void setTodoState(TodoState todoState) {
+        this.todoState = todoState;
     }
 
     public void setSessionId(String sessionId) {

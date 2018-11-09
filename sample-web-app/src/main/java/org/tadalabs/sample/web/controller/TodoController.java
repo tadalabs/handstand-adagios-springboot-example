@@ -9,6 +9,7 @@ import org.tadalabs.sample.core.domain.Session;
 import org.tadalabs.sample.core.domain.Todo;
 import org.tadalabs.sample.adapter.web.api.TodoList;
 import org.tadalabs.sample.core.boundary.enter.TodoService;
+import org.tadalabs.sample.core.domain.TodoState;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -46,6 +47,8 @@ public class TodoController {
         }
 
         request.setSessionId(optionalSession.get().getSessionId());
+
+        request.setTodoState(TodoState.NOT_STARTED);
 
         Optional<Todo> optionalTodo = this.todoService.createNewTodo(request);
         if(!optionalTodo.isPresent()) {

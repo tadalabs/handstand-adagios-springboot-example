@@ -18,6 +18,7 @@ public class TodoMapper {
         entity.setTodoId(todo.getTodoId());
         entity.setSessionId(todo.getSessionId());
         entity.setValue(todo.getValue());
+        entity.setTodoState(todo.getTodoState());
         return Optional.of(entity);
     }
 
@@ -29,7 +30,8 @@ public class TodoMapper {
         return Optional.of(new Todo(
                 entity.getTodoId(),
                 entity.getValue(),
-                entity.getSessionId()
+                entity.getSessionId(),
+                entity.getTodoState()
         ));
     }
     

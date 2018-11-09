@@ -4,17 +4,20 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.tadalabs.sample.core.domain.TodoState;
 
 public class TodoListItem {
 
     private final String todoId;
     private final String value;
     private final String sessionId;
+    private final TodoState todoState;
 
-    public TodoListItem(String todoId, String value, String sessionId) {
+    public TodoListItem(String todoId, String value, String sessionId, TodoState todoState) {
         this.todoId = todoId;
         this.value = value;
         this.sessionId = sessionId;
+        this.todoState = todoState;
     }
 
     @Override
@@ -44,5 +47,8 @@ public class TodoListItem {
         return value;
     }
 
-    
+    public TodoState getTodoState() {
+        return todoState;
+    }
+
 }

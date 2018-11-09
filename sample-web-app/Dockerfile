@@ -3,7 +3,7 @@
 FROM tomcat:7.0.79-jre8
 
 MAINTAINER Andrew Parise <andrewparise1994@gmail.com>
-ENV REFRESHED_AT 2018-10-16
+ENV REFRESHED_AT 2018-11-07
 
 RUN ["rm", "-fr", "/usr/local/tomcat/webapps/ROOT"]
 

@@ -27,7 +27,8 @@ public class TodoListMapper {
         return new TodoListItem(
                 todoEntity.getTodoId(),
                 todoEntity.getValue(),
-                todoEntity.getSessionId()
+                todoEntity.getSessionId(),
+                todoEntity.getTodoState()
         );
     }
     

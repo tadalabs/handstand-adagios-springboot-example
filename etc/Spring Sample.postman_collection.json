@@ -1,0 +1,166 @@
+{
+	"info": {
+		"_postman_id": "cd2a5319-f4cb-46f0-bd6c-af8f25b6baea",
+		"name": "Spring Sample",
+		"description": "Spring boot Sample Application REST calls",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all Todos",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}{{restContext}}/todos/",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}{{restContext}}",
+					"path": [
+						"todos",
+						""
+					]
+				},
+				"description": "Fetches all Todos persisted in the Dynamo instance"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Todo by Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}{{restContext}}/todos/5eb811a1-42e0-4126-b596-91ef01f11f03",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}{{restContext}}",
+					"path": [
+						"todos",
+						"5eb811a1-42e0-4126-b596-91ef01f11f03"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new Todo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{sessionId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"value\": \"Do some stuff\"\n}"
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}{{restContext}}/todos",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}{{restContext}}",
+					"path": [
+						"todos"
+					]
+				},
+				"description": "POST's a new Todo to the Spring Web Service"
+			},
+			"response": []
+		},
+		{
+			"name": "Initiate Session",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{sessionId}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"value\": \"Do that thing\"\n}"
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}{{restContext}}/sessions/initiate",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}{{restContext}}",
+					"path": [
+						"sessions",
+						"initiate"
+					]
+				},
+				"description": "POST's a new Todo to the Spring Web Service"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "1cf24fd2-d771-4da1-b86f-dcd445f6225d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "373770f2-9982-4f3d-930d-1f39a5069ce4",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

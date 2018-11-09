@@ -22,7 +22,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.war.version>2.6</maven.war.version>
 
-
         <com.amazonaws.version>1.11.348</com.amazonaws.version>
         <com.github.spring-data-dynamodb.version>5.0.2</com.github.spring-data-dynamodb.version>
         <org.springframework.boot.version>2.0.3.RELEASE</org.springframework.boot.version>

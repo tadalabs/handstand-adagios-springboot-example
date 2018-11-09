@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.tadalabs.sample.core.domain.TodoState;
+import org.tadalabs.sample.data.dynamo.converter.TodoStateConverter;
 
 @DynamoDBTable(tableName = "todo")
 public class TodoEntity {
@@ -13,14 +15,17 @@ public class TodoEntity {
     private String sessionId;
     private String value;
 
+    private TodoState todoState;
+
     private String createdDate;
     private String lastModifiedDate;
 
     public TodoEntity() {}
 
-    public TodoEntity(String value, String sessionId) {
+    public TodoEntity(String value, String sessionId, TodoState todoState) {
         this.value = value;
         this.sessionId = sessionId;
+        this.todoState = todoState;
     }
 
     @Override
@@ -51,7 +56,17 @@ public class TodoEntity {
 
     @DynamoDBAttribute(attributeName="session_id")
     public String getSessionId() {
-        return value;
+        return sessionId;
+    }
+
+    @DynamoDBAttribute(attributeName="todo_state")
+    @DynamoDBTypeConverted(converter = TodoStateConverter.class)
+    public TodoState getTodoState() {
+        return todoState;
+    }
+
+    public void setTodoState(TodoState todoState) {
+        this.todoState = todoState;
     }
 
     @DynamoDBAttribute(attributeName = "created_date")

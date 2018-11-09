@@ -30,5 +30,4 @@ public final class SessionFactory {
         return newSession;
     }
 
-
 }
