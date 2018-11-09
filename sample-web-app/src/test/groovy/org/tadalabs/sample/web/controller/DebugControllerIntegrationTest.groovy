@@ -25,7 +25,8 @@ class DebugControllerIntegrationTest extends Specification {
         mockMvc = standaloneSetup(new DebugController(debugService)).build()
     }
 
-    def "Spring Context should load Debug Service"() {
+    def "Spring Context should load Debug Endpoint"() {
+
         given: 'a sample Debug object to test against'
             boolean testIsBooleanMode = true
             Debug testDebug = new Debug(isDebugMode: testIsBooleanMode)

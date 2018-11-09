@@ -11,6 +11,7 @@ import spock.lang.Specification
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
 
 @WebMvcTest
@@ -26,18 +27,28 @@ class SessionControllerIntegrationTest extends Specification {
         mockMvc = standaloneSetup(new SessionController(sessionService)).build()
     }
 
-    def "Spring Context should load Session Service"() {
+    def "Spring Context should load Session Endpoint"() {
+
         given: 'a sample SessionList object to test against'
             String testSessionId = 'abc-123-def-456'
             String testAddress = '555.555.555.555'
-            SessionListItem testSessionListItem = new SessionListItem(testSessionId, new Date(), new Date(), testAddress)
+            SessionListItem testSessionListItem = new SessionListItem(testSessionId, null, null, testAddress)
             Optional<SessionList> testSessionList = Optional.of(new SessionList([testSessionListItem]))
+
         and: 'a Stubbed SessionService that is set to always return a collection containing our sample SessionList'
             sessionService.findAll() >> testSessionList
 
         expect: "controller is available and returns the expected resultant"
-            mockMvc.perform(get("/rest/sessions/"))
+            mockMvc.perform(get('/rest/sessions/'))
                 .andExpect(status().isOk())
+                .andExpect(content().string("" +
+                    "{\"sessions\":[" +
+                    "{\"sessionId\":\"${testSessionListItem.sessionId}\"," +
+                    "\"initiationDate\":${testSessionListItem.initiationDate}," +
+                    "\"expirationDate\":${testSessionListItem.expirationDate}," +
+                    "\"address\":\"${testSessionListItem.address}\"" +
+                    "}" +
+                    "],\"empty\":false}"))
     }
 
 }
