@@ -2,8 +2,8 @@ package org.tadalabs.sample.core.boundary.enter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.tadalabs.sample.core.boundary.exit.ISessionRepository;
 import org.tadalabs.sample.core.domain.Session;
-import org.tadalabs.sample.data.repository.SessionRepository;
 import org.tadalabs.sample.adapter.web.api.SessionList;
 
 import javax.validation.Valid;
@@ -14,10 +14,10 @@ import java.util.Optional;
 @Service
 public class SessionService {
 
-    private final SessionRepository sessionRepository;
+    private final ISessionRepository sessionRepository;
 
     @Autowired
-    public SessionService(SessionRepository sessionRepository) {
+    public SessionService(ISessionRepository sessionRepository) {
 
         this.sessionRepository = sessionRepository;
     }
