@@ -34,4 +34,5 @@ services:
     - sample-dynamo-service
     ports:
     - "${SAMPLE_REST_SERVER_HOST_PORT}:${SAMPLE_REST_SERVER_CONTAINER_PORT}"
+    - "${SAMPLE_REST_SERVER_DEBUGGER_HOST_PORT}:${SAMPLE_REST_SERVER_DEBUGGER_CONTAINER_PORT}"
     env_file: .env

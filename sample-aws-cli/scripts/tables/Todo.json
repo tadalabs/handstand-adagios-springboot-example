@@ -1,0 +1,19 @@
+{
+  "TableName": "todo",
+  "KeySchema": [
+    {
+      "AttributeName": "todo_id",
+      "KeyType": "HASH"
+    }
+  ],
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "todo_id",
+      "AttributeType": "S"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 1,
+    "WriteCapacityUnits": 1
+  }
+}

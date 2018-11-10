@@ -7,7 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-@EnableDynamoDBRepositories("org.tadalabs.sample.repository")
+@EnableDynamoDBRepositories("org.tadalabs.sample.data.dynamo.repository")
 public class SampleApplication extends SpringBootServletInitializer {
 
     @Override

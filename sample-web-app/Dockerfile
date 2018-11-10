@@ -3,7 +3,7 @@
 FROM tomcat:7.0.79-jre8
 
 MAINTAINER Andrew Parise <andrewparise1994@gmail.com>
-ENV REFRESHED_AT 2018-10-16
+ENV REFRESHED_AT 2018-11-07
 
 RUN ["rm", "-fr", "/usr/local/tomcat/webapps/ROOT"]
 
@@ -14,7 +14,7 @@ COPY ./conf/context.xml /usr/local/tomcat/conf/context.xml
 COPY ./conf/server.xml /usr/local/tomcat/conf/server.xml
 
 EXPOSE 8082
-EXPOSE 8000
+EXPOSE 8003
 
-ENV JPDA_ADDRESS 8000
+ENV JPDA_ADDRESS 8003
 CMD ["catalina.sh", "jpda", "run", "--debug"]

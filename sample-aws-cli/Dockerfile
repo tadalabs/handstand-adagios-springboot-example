@@ -10,7 +10,8 @@ RUN apk update && apk add bash
 COPY ./scripts/createTables.sh /etc/createTables.sh
 
 # Add the Table Configuration To the Container
-COPY ./scripts/tables/Widget.json /etc/Widget.json
+COPY ./scripts/tables/Session.json /etc/Session.json
+COPY ./scripts/tables/Todo.json /etc/Todo.json
 
 RUN ["chmod", "+x", "/etc/createTables.sh"]
 
